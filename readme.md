@@ -31,7 +31,14 @@ Comparing sorting algorithms performances.
 ![Merge Sort](https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Merge-sort-example-300px.gif/220px-Merge-sort-example-300px.gif)
 
 #### Average Performance
-- $O(n^{2})$ comparisons
+- $O(n\cdot \log{n})$ comparisons
+
+---
+### Quick Sort
+![Quick Sort](https://upload.wikimedia.org/wikipedia/commons/9/9c/Quicksort-example.gif)
+
+#### Average Performance
+- $O(n\cdot \log{n})$ comparisons
 
 ---
 

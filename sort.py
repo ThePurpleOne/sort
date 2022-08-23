@@ -5,7 +5,7 @@ import tqdm
 
 
 
-def test(func, numbers, rep=10):
+def test(func, numbers, rep=100):
 	import time
 
 	avg = 0
@@ -84,11 +84,30 @@ def merge(numbers):
 			j += 1
 			k += 1
 
+# Quicksort helper function
+def quick_partition(array, begin, end):
+    pivot = begin
+    for i in range(begin+1, end+1):
+        if array[i] <= array[begin]:
+            pivot += 1
+            array[i], array[pivot] = array[pivot], array[i]
+    array[pivot], array[begin] = array[begin], array[pivot]
+    return pivot
+
+def quick(array, begin=0, end=None):
+	# source https://stackoverflow.com/questions/32421579/python-quicksort-program-in-place
+    if end is None:
+        end = len(array) - 1
+    if begin >= end:
+        return
+    pivot = quick_partition(array, begin, end)
+    quick(array, begin, pivot-1)
+    quick(array, pivot+1, end)
 
 def main():
 	import random
 
-	n = 100
+	n = 10
 	#numbers = np.array([random.randint(0, 1000) for i in range(n)], dtype=np.int32)
 	numbers = [random.randint(0, 1000) for i in range(n)]
 	
@@ -97,6 +116,7 @@ def main():
 		"Selection": selection,
 		"Insertion": insertion,
 		"Merge": merge,
+		"Quick": quick,
 	}
 
 	for name, func in sort_algos.items():
@@ -104,6 +124,7 @@ def main():
 		print(f"{name:-^50}")
 		time, sorted_array = test(func, a)
 		print(f"{name:<20}: {time * 1000} ms")
+
 
 
 if __name__ == "__main__":
