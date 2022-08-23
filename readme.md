@@ -12,7 +12,7 @@ Comparing sorting algorithms performances.
 
 ---
 ### Selection Sort
-![Selection Sort](https://upload.wikimedia.org/wikipedia/commons/9/94/Selection-Sort-Animation.gif)
+![Selection Sort](https://i2.wp.com/algorithms.tutorialhorizon.com/files/2019/01/Selection-Sort-Gif.gif?ssl=1)
 
 #### Average Performance
 - $O(n^{2})$ comparisons
