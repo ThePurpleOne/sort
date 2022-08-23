@@ -22,7 +22,6 @@ def bubble(numbers):
 		for j in range(len(numbers) - 1):
 			if numbers[j] > numbers[j + 1]:
 				numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
-	return numbers
 
 def selection(numbers):
 	s = len(numbers)
@@ -44,7 +43,6 @@ def insertion(numbers):
 			j = j - 1
 		numbers[j+1] = x
 		i = i + 1
-	return numbers
 
 def merge(numbers):
 	# STOLEN FROM https://www.educative.io/answers/merge-sort-in-python
