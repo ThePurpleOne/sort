@@ -86,23 +86,26 @@ def merge(numbers):
 
 # Quicksort helper function
 def quick_partition(array, begin, end):
-    pivot = begin
-    for i in range(begin+1, end+1):
-        if array[i] <= array[begin]:
-            pivot += 1
-            array[i], array[pivot] = array[pivot], array[i]
-    array[pivot], array[begin] = array[begin], array[pivot]
-    return pivot
+	pivot = begin
+	for i in range(begin+1, end+1):
+		if array[i] <= array[begin]:
+			pivot += 1
+			array[i], array[pivot] = array[pivot], array[i]
+	array[pivot], array[begin] = array[begin], array[pivot]
+	return pivot
 
 def quick(array, begin=0, end=None):
 	# source https://stackoverflow.com/questions/32421579/python-quicksort-program-in-place
-    if end is None:
-        end = len(array) - 1
-    if begin >= end:
-        return
-    pivot = quick_partition(array, begin, end)
-    quick(array, begin, pivot-1)
-    quick(array, pivot+1, end)
+	if end is None:
+		end = len(array) - 1
+	if begin >= end:
+		return
+	pivot = quick_partition(array, begin, end)
+	quick(array, begin, pivot-1)
+	quick(array, pivot+1, end)
+
+def python(numbers):
+	numbers.sort()
 
 def main():
 	import random
@@ -117,6 +120,7 @@ def main():
 		"Insertion": insertion,
 		"Merge": merge,
 		"Quick": quick,
+		"Python" : python
 	}
 
 	for name, func in sort_algos.items():
@@ -124,6 +128,12 @@ def main():
 		print(f"{name:-^50}")
 		time, sorted_array = test(func, a)
 		print(f"{name:<20}: {time * 1000} ms")
+
+	a = numbers[:]
+	print(a)
+	python(a)
+	print(a)
+
 
 
 

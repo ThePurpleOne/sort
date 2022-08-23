@@ -49,6 +49,8 @@ Selection : https://en.wikipedia.org/wiki/Selection_sort
 
 Insertion Sort : https://en.wikipedia.org/wiki/Insertion_sort
 
-Merge Sort : https://en.wikipedia.org/wiki/Merge_sort
+Merge Sort : https://en.wikipedia.org/wiki/Merge_sort &&
 https://www.educative.io/answers/merge-sort-in-python
+
+Quick Sort : https://en.wikipedia.org/wiki/Quicksort && https://stackoverflow.com/questions/32421579/python-quicksort-program-in-place
 
