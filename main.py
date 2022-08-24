@@ -3,7 +3,7 @@ import time
 import tqdm
 
 
-def test(func, numbers, rep=100):
+def test(func, numbers, rep=1000):
 
 	avg = 0
 	for i in tqdm.tqdm(range(rep), bar_format='{l_bar}{bar:20}{r_bar}'):
@@ -17,8 +17,8 @@ def test(func, numbers, rep=100):
 def main():
 	from sort import bubble, selection, insertion, merge, quick, python 
 
-	n = 1000
-	numbers = [random.randint(0, 1000) for i in range(n)]
+	n_items = 10
+	numbers = [random.randint(0, 10000) for i in range(n_items)]
 	
 	sort_algos = {
 		"Bubble": bubble,
@@ -29,11 +29,16 @@ def main():
 		"Python" : python
 	}
 
+
+	print(f"\n\n\n{'':-^50}")
+	print(f"{f'  TESTING WITH {n_items} ITEMS LISTS  ':-^50}")
+	print(f"{'':-^50}\n")
 	for name, func in sort_algos.items():
 		a = numbers[:]
 		print(f"{name:-^50}")
 		time, sorted_array = test(func, a)
 		print(f"{name:<20}: {time * 1000} ms")
+	print("\n")
 
 
 

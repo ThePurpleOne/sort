@@ -1,23 +1,12 @@
 import numpy as np
 import tqdm 
 
-
-
-#def bubble(numbers):
-#	for i in range(len(numbers)):
-#		for j in range(len(numbers) - 1):
-#			if numbers[j] > numbers[j + 1]:
-#				numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
-
-
 def bubble(numbers):
 	for j in range(len(numbers)-1, -1, -1):
 		swapped = False
 		for i in range(j):
 			if numbers[i+1] < numbers[i]:
-				tmp = numbers[i]
-				numbers[i] = numbers[i+1]
-				numbers[i+1] = tmp
+				numbers[i], numbers[i+1] = numbers[i+1], numbers[i]
 				swapped = True
 		if not swapped:
 			break
@@ -83,44 +72,33 @@ def merge(numbers):
 			j += 1
 			k += 1
 
-# Quicksort helper function
 def quick(numbers):
-    quick_helper(numbers, 0, len(numbers)-1)
+	quick_helper(numbers, 0, len(numbers) - 1)
 
-def quick_helper(numbers, first, last):
-    
-    if first >= last:
-        return
+def quick_helper(numbers, low, high):
+	if low < high:
+		pivot = partition(numbers, low, high)
+		quick_helper(numbers, low, pivot - 1)
+		quick_helper(numbers, pivot + 1, high)
 
-    pivot = numbers[last]     # use last item
+def partition(numbers, low, high):
+	i = low - 1
+	pivot = numbers[high // 2]
 
-    left = first
-    right = last - 1    # ignore pivot for now
-    while left <= right:
+	for j in range(low, high):
+		if numbers[j] <= pivot:
+			i += 1
+			numbers[i], numbers[j] = numbers[j], numbers[i]
 
-        while left <= right and numbers[left] < pivot:
-            left += 1
-        while left <= right and pivot < numbers[right]:
-            right -= 1
-        if left <= right:
-            tmp = numbers[left]
-            numbers[left] = numbers[right]
-            numbers[right] = tmp
-            left += 1
-            right -= 1
-
-    tmp = numbers[left]
-    numbers[left] = numbers[last]
-    numbers[last] = tmp
-
-    quick_helper(numbers, first, left-1)
-    quick_helper(numbers, left+1, last)
+	numbers[i+1], numbers[high] = numbers[high], numbers[i+1]
+	return i + 1
 
 def python(numbers):
 	numbers.sort()
 
 def test_algo(func, numbers, already_sorted):
 	func(numbers)
+	print(f"Should be sorted {numbers}")
 	if numbers == already_sorted:
 		print(f"{func.__name__:<28} ✅")
 	else:
@@ -129,7 +107,7 @@ def test_algo(func, numbers, already_sorted):
 if __name__ == "__main__":
 	# TESING IF EVERY ALGO WORKS CORRECTLY
 	import random
-	n = 1000
+	n = 10
 	numbers = [random.randint(0, 1000) for i in range(n)]
 
 	sort_algos = {
