@@ -72,26 +72,32 @@ def merge(numbers):
 			j += 1
 			k += 1
 
-def quick(numbers):
-	quick_helper(numbers, 0, len(numbers) - 1)
+def quick(array, start=0, end=None):
+	import random
+	if end is None:
+		end = len(array) - 1
 
-def quick_helper(numbers, low, high):
-	if low < high:
-		pivot = partition(numbers, low, high)
-		quick_helper(numbers, low, pivot - 1)
-		quick_helper(numbers, pivot + 1, high)
+	if end - start < 1:
+		return
 
-def partition(numbers, low, high):
-	i = low - 1
-	pivot = numbers[high // 2]
+	idx_pivot = random.randint(start, end)
+	i = quick_hepler(array, start, end, idx_pivot)
+	#print array, i, idx_pivot
+	quick(array, start, i - 1)
+	quick(array, i + 1, end)
 
-	for j in range(low, high):
-		if numbers[j] <= pivot:
+def quick_hepler(array, start, end, idx_pivot):
+	array[start], array[idx_pivot] = array[idx_pivot], array[start]
+	pivot = array[start]
+	i = j = start + 1
+
+	while j <= end:
+		if array[j] <= pivot:
+			array[j], array[i] = array[i], array[j]
 			i += 1
-			numbers[i], numbers[j] = numbers[j], numbers[i]
-
-	numbers[i+1], numbers[high] = numbers[high], numbers[i+1]
-	return i + 1
+		j += 1
+	array[start], array[i - 1] = array[i - 1], array[start]
+	return i - 1
 
 def python(numbers):
 	numbers.sort()
@@ -112,7 +118,7 @@ if __name__ == "__main__":
 
 	sort_algos = {
 		"Bubble": bubble,
-		"Selection": selection,
+		#"Selection": selection,
 		"Insertion": insertion,
 		"Merge": merge,
 		"Quick": quick,
@@ -120,7 +126,8 @@ if __name__ == "__main__":
 	}
 
 
-	print(f"{'TESTING ALGORITHMS':-^30}")
+	print(f"{' TESTING ALGORITHMS ':-^70}")
+	print(f"{'Base list':<17}{numbers}")
 	for name, func in sort_algos.items():
 		a = numbers[:] # create copy
 		test_algo(func, a, sorted(numbers))
