@@ -3,25 +3,24 @@ import tqdm
 
 
 
+#def bubble(numbers):
+#	for i in range(len(numbers)):
+#		for j in range(len(numbers) - 1):
+#			if numbers[j] > numbers[j + 1]:
+#				numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
 
-
-def test(func, numbers, rep=100):
-	import time
-
-	avg = 0
-	for i in tqdm.tqdm(range(rep), bar_format='{l_bar}{bar:20}{r_bar}'):
-		start = time.perf_counter()
-		sorted_arr = func(numbers)
-		end = time.perf_counter()
-		avg += end - start
-
-	return (avg / rep), sorted_arr
 
 def bubble(numbers):
-	for i in range(len(numbers)):
-		for j in range(len(numbers) - 1):
-			if numbers[j] > numbers[j + 1]:
-				numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
+	for j in range(len(numbers)-1, -1, -1):
+		swapped = False
+		for i in range(j):
+			if numbers[i+1] < numbers[i]:
+				tmp = numbers[i]
+				numbers[i] = numbers[i+1]
+				numbers[i+1] = tmp
+				swapped = True
+		if not swapped:
+			break
 
 def selection(numbers):
 	s = len(numbers)
@@ -85,35 +84,54 @@ def merge(numbers):
 			k += 1
 
 # Quicksort helper function
-def quick_partition(array, begin, end):
-	pivot = begin
-	for i in range(begin+1, end+1):
-		if array[i] <= array[begin]:
-			pivot += 1
-			array[i], array[pivot] = array[pivot], array[i]
-	array[pivot], array[begin] = array[begin], array[pivot]
-	return pivot
+def quick(numbers):
+    quick_helper(numbers, 0, len(numbers)-1)
 
-def quick(array, begin=0, end=None):
-	# source https://stackoverflow.com/questions/32421579/python-quicksort-program-in-place
-	if end is None:
-		end = len(array) - 1
-	if begin >= end:
-		return
-	pivot = quick_partition(array, begin, end)
-	quick(array, begin, pivot-1)
-	quick(array, pivot+1, end)
+def quick_helper(numbers, first, last):
+    
+    if first >= last:
+        return
+
+    pivot = numbers[last]     # use last item
+
+    left = first
+    right = last - 1    # ignore pivot for now
+    while left <= right:
+
+        while left <= right and numbers[left] < pivot:
+            left += 1
+        while left <= right and pivot < numbers[right]:
+            right -= 1
+        if left <= right:
+            tmp = numbers[left]
+            numbers[left] = numbers[right]
+            numbers[right] = tmp
+            left += 1
+            right -= 1
+
+    tmp = numbers[left]
+    numbers[left] = numbers[last]
+    numbers[last] = tmp
+
+    quick_helper(numbers, first, left-1)
+    quick_helper(numbers, left+1, last)
 
 def python(numbers):
 	numbers.sort()
 
-def main():
-	import random
+def test_algo(func, numbers, already_sorted):
+	func(numbers)
+	if numbers == already_sorted:
+		print(f"{func.__name__:<28} ✅")
+	else:
+		print(f"{func.__name__:<28} ❌")
 
-	n = 10
-	#numbers = np.array([random.randint(0, 1000) for i in range(n)], dtype=np.int32)
+if __name__ == "__main__":
+	# TESING IF EVERY ALGO WORKS CORRECTLY
+	import random
+	n = 1000
 	numbers = [random.randint(0, 1000) for i in range(n)]
-	
+
 	sort_algos = {
 		"Bubble": bubble,
 		"Selection": selection,
@@ -123,19 +141,8 @@ def main():
 		"Python" : python
 	}
 
+
+	print(f"{'TESTING ALGORITHMS':-^30}")
 	for name, func in sort_algos.items():
-		a = numbers[:]
-		print(f"{name:-^50}")
-		time, sorted_array = test(func, a)
-		print(f"{name:<20}: {time * 1000} ms")
-
-	a = numbers[:]
-	print(a)
-	python(a)
-	print(a)
-
-
-
-
-if __name__ == "__main__":
-	main()
+		a = numbers[:] # create copy
+		test_algo(func, a, sorted(numbers))
